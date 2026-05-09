@@ -79,18 +79,23 @@ export function generateDiff(oldStr: string, newStr: string, context: number = 3
     }
   }
 
-  // Build result with omitted indicators
-  let inOmittedBlock = false;
+  // Build final diff with context gaps
+  let omittedCount = 0;
   for (let i = 0; i < allLines.length; i++) {
     if (mask[i]) {
-      inOmittedBlock = false;
+      if (omittedCount > 0) {
+        result.push({ type: 'omitted', content: `... ${omittedCount} lines omitted ...` });
+        omittedCount = 0;
+      }
       result.push(allLines[i]);
     } else {
-      if (!inOmittedBlock) {
-        result.push({ type: 'omitted', content: '...' });
-        inOmittedBlock = true;
-      }
+      omittedCount++;
     }
+  }
+
+  // Handle trailing omitted lines
+  if (omittedCount > 0) {
+    result.push({ type: 'omitted', content: `... ${omittedCount} lines omitted ...` });
   }
 
   return result;

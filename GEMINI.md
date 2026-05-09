@@ -1,10 +1,10 @@
-# VoiceClaw Project Context
+# VoiceClaw — Project Context & Architecture
 
-VoiceClaw is a voice-first AI pair programmer that enables natural language interaction with a codebase. It uses **Gemini 3.1 Flash Live** for real-time voice conversation and tool orchestration, and **Claude Code CLI** as the execution engine for reading, writing, and debugging code.
+VoiceClaw is a voice-first interactive development environment. It leverages **Gemini 3.1 Flash Live** for low-latency voice orchestration and **Claude Code CLI** for high-fidelity codebase manipulation.
 
 ## 🏗️ Architecture
 
-VoiceClaw employs a hybrid architecture to ensure low latency and deep codebase access:
+The system operates as a distributed bridge between local execution and cloud-based AI:
 
 - **Frontend (React/TS/Vite):** Handles audio capture and playback. It establishes a **direct WebSocket connection to Gemini Live API** for minimal voice latency.
 - **Backend (FastAPI):** Acts as a thin relay and orchestrator. It spawns `claude -p` as a subprocess to execute tasks.
